@@ -7,6 +7,7 @@
     tools:context="com.icarasia.sample.view.SplashActivity">
 
     <ImageView
+        android:id="@+id/imgV_random"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_centerInParent="true"
