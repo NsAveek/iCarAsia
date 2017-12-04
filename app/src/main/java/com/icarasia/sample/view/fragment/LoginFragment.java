@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.icarasia.sample.R;
+import com.icarasia.sample.model.Validator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,10 +31,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     private EditText etEmail,etPassword;
     private Button btnLogin;
     private RelativeLayout mLayout;
-    private String emailPattern;
-    private String passPattern;
-    private Pattern pattern;
-    private Matcher matcher;
+    private Validator mValidator;
 
     public LoginFragment() {
     }
@@ -70,15 +68,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View loginFragment = inflater.inflate(R.layout.fragment_login, container, false);
         mLayout = (RelativeLayout) loginFragment.findViewById(R.id.rl_login_fragment) ;
+        mValidator = new Validator();
         etEmail = (EditText) loginFragment.findViewById(R.id.et_login_email);
         etPassword = (EditText) loginFragment.findViewById(R.id.et_login_password);
         btnLogin = (Button) loginFragment.findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(this);
 
-        emailPattern =
-                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        passPattern ="^(?=.{8,})(?=.*[@#$%^&+=]).*$";
+
 
         return loginFragment;
     }
@@ -89,13 +85,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        mContext = context;
-//        if (context instanceof OnDBTFragmentInteractionListener) {
-//            mListener = (OnDBTFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnDBTFragmentInteractionListener");
-//        }
     }
 
     @Override
@@ -114,16 +103,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         super.onResume();
     }
 
-    private boolean validateEmail(String email){
-        pattern = Pattern.compile(emailPattern);
-        matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
-    private boolean validatePassword (String password){
-        pattern = Pattern.compile(passPattern);
-        matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
+
     private boolean checkEmpty(){
         if (etEmail.getText().toString().trim().equals("") || etPassword.getText().toString().trim().equals("")) return true;
         return false;
@@ -134,9 +114,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             case R.id.btn_login:
                 if (checkEmpty()){
                     Snackbar.make(mLayout,"Please complete the form",Snackbar.LENGTH_LONG).show();
-                }else if (!validateEmail(etEmail.getText().toString().trim())){
+                }else if (!mValidator.validateEmail(etEmail.getText().toString().trim())){
                     Snackbar.make(mLayout,"Email is not valid",Snackbar.LENGTH_LONG).show();
-                }else if (!validatePassword(etPassword.getText().toString().trim())){
+                }else if (!mValidator.validatePassword(etPassword.getText().toString().trim())){
                     Snackbar.make(mLayout,"Password should contain one special character and minimum 8 characters required",Snackbar.LENGTH_LONG).show();
                 }
                 break;
