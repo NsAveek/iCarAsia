@@ -74,8 +74,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         btnLogin = (Button) loginFragment.findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(this);
 
-
-
         return loginFragment;
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -113,11 +111,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()){
             case R.id.btn_login:
                 if (checkEmpty()){
-                    Snackbar.make(mLayout,"Please complete the form",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.warning_form_completion),Snackbar.LENGTH_LONG).show();
                 }else if (!mValidator.validateEmail(etEmail.getText().toString().trim())){
-                    Snackbar.make(mLayout,"Email is not valid",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.error_email_validation),Snackbar.LENGTH_LONG).show();
                 }else if (!mValidator.validatePassword(etPassword.getText().toString().trim())){
-                    Snackbar.make(mLayout,"Password should contain one special character and minimum 8 characters required",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.error_password_validation),Snackbar.LENGTH_LONG).show();
                 }
                 break;
         }

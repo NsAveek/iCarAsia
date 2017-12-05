@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">ICarAsia</string>
     <string-array name="usertype">
+        <item>@string/spn_default_text</item>
         <item>Broker</item>
         <item>Agent</item>
         <item>Dealer</item>
         <item>Private</item>
     </string-array>
+    <string name="spn_default_text">Select an User Type</string>
+    <string name="warning_spinner">Please select user type</string>
+    <string name="warning_form_completion">Please complete the form</string>
+    <string name="error_mobile_validation">Mobile number is not valid</string>
+    <string name="error_password_validation">Password should contain one special character and minimum 8 characters required</string>
+    <string name="error_email_validation">Email is not valid</string>
+    <string name="text_account_type">Your account type is Private</string>
 </resources>

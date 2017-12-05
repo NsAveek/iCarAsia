@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -20,7 +22,7 @@ import com.icarasia.sample.model.Validator;
  * Created by Aveek on 04/12/2017.
  */
 
-public class RegistrationFragment extends Fragment implements View.OnClickListener {
+public class RegistrationFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -67,18 +69,22 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View loginFragment = inflater.inflate(R.layout.fragment_registration, container, false);
-        mLayout = (RelativeLayout) loginFragment.findViewById(R.id.rl_registration_fragment);
-        btnSignUp = loginFragment.findViewById(R.id.btn_signup);
+
+        View registrationFragment = inflater.inflate(R.layout.fragment_registration, container, false);
+        mLayout = registrationFragment.findViewById(R.id.rl_registration_fragment);
+        spnUserType= registrationFragment.findViewById(R.id.spn_registration_user_type);
+        btnSignUp = registrationFragment.findViewById(R.id.btn_signup);
         btnSignUp.setOnClickListener(this);
         mValidator = new Validator();
-        etRegistrationEmail = loginFragment.findViewById(R.id.et_registration_email);
-        etRegistrationPassword = loginFragment.findViewById(R.id.et_registration_password);
-        etRegistrationFirstName = loginFragment.findViewById(R.id.et_registration_first_name);
-        etRegistrationLastName = loginFragment.findViewById(R.id.et_registration_last_name);
-        getEtRegistrationMobile =loginFragment.findViewById(R.id.et_registration_mobile_number);
-        return loginFragment;
+
+        etRegistrationEmail = registrationFragment.findViewById(R.id.et_registration_email);
+        etRegistrationPassword = registrationFragment.findViewById(R.id.et_registration_password);
+        etRegistrationFirstName = registrationFragment.findViewById(R.id.et_registration_first_name);
+        etRegistrationLastName = registrationFragment.findViewById(R.id.et_registration_last_name);
+        getEtRegistrationMobile =registrationFragment.findViewById(R.id.et_registration_mobile_number);
+
+        setUpSpinnerData();
+        return registrationFragment;
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -109,20 +115,46 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         return false;
     }
 
+    private void setUpSpinnerData() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_usertype, R.id.txtSpn,getResources().getStringArray(R.array.usertype));
+        spnUserType.setAdapter(adapter);
+        spnUserType.setOnItemSelectedListener(this);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_signup:
                 if (checkEmpty()){
-                    Snackbar.make(mLayout,"Please complete the form",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.warning_form_completion),Snackbar.LENGTH_SHORT).show();
                 }else if (!mValidator.validateEmail(etRegistrationEmail.getText().toString().trim())){
-                    Snackbar.make(mLayout,"Email is not valid",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.error_email_validation),Snackbar.LENGTH_LONG).show();
                 }else if (!mValidator.validatePassword(etRegistrationPassword.getText().toString().trim())){
-                    Snackbar.make(mLayout,"Password should contain one special character and minimum 8 characters required",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.error_password_validation),Snackbar.LENGTH_LONG).show();
                 }else if (!mValidator.validateMobile(getEtRegistrationMobile.getText().toString().trim())){
-                    Snackbar.make(mLayout,"Mobile number is not valid",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.error_mobile_validation),Snackbar.LENGTH_LONG).show();
+                }else if (spnUserType.getSelectedItem().toString().equals(getResources().getString(R.string.spn_default_text))){
+                    Snackbar.make(mLayout,getResources().getString(R.string.warning_spinner),Snackbar.LENGTH_LONG).show();
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+        if (position == 0) {
+
+        }else if (position == 1){
+
+        }else if (position == 2){
+
+        }else if (position == 3){
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

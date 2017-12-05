@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //TODO: Open a dialog and edit the mobile number and save to Realm Database
     }
     private void showUserType(){
-        Toast.makeText(this,"Your account type is Private",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,getResources().getString(R.string.text_account_type),Toast.LENGTH_SHORT).show();
     }
     private void logout(){
         // TODO : Show Dialog "Logging Out " > Then move to Splash Screen Page
