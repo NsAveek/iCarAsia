@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ICarAsia</string>
+    <string-array name="usertype">
+        <item>Broker</item>
+        <item>Agent</item>
+        <item>Dealer</item>
+        <item>Private</item>
+    </string-array>
 </resources>

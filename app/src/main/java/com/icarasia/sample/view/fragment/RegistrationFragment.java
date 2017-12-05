@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.icarasia.sample.R;
+import com.icarasia.sample.model.Validator;
 
 /**
  * Created by Aveek on 04/12/2017.
@@ -30,6 +31,8 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     private Spinner spnUserType;
     private Button btnSignUp;
     private RelativeLayout mLayout;
+    private Validator mValidator;
+
     public RegistrationFragment() {
 
     }
@@ -69,6 +72,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         mLayout = (RelativeLayout) loginFragment.findViewById(R.id.rl_registration_fragment);
         btnSignUp = loginFragment.findViewById(R.id.btn_signup);
         btnSignUp.setOnClickListener(this);
+        mValidator = new Validator();
         etRegistrationEmail = loginFragment.findViewById(R.id.et_registration_email);
         etRegistrationPassword = loginFragment.findViewById(R.id.et_registration_password);
         etRegistrationFirstName = loginFragment.findViewById(R.id.et_registration_first_name);
@@ -104,12 +108,19 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
                 || getEtRegistrationMobile.getText().toString().trim().equals("")) return true;
         return false;
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_signup:
                 if (checkEmpty()){
                     Snackbar.make(mLayout,"Please complete the form",Snackbar.LENGTH_SHORT).show();
+                }else if (!mValidator.validateEmail(etRegistrationEmail.getText().toString().trim())){
+                    Snackbar.make(mLayout,"Email is not valid",Snackbar.LENGTH_LONG).show();
+                }else if (!mValidator.validatePassword(etRegistrationPassword.getText().toString().trim())){
+                    Snackbar.make(mLayout,"Password should contain one special character and minimum 8 characters required",Snackbar.LENGTH_LONG).show();
+                }else if (!mValidator.validateMobile(getEtRegistrationMobile.getText().toString().trim())){
+                    Snackbar.make(mLayout,"Mobile number is not valid",Snackbar.LENGTH_LONG).show();
                 }
                 break;
         }
