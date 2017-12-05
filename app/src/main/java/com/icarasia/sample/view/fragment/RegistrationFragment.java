@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.icarasia.sample.R;
+import com.icarasia.sample.model.User;
 import com.icarasia.sample.model.Validator;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by Aveek on 04/12/2017.
@@ -34,6 +39,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     private Button btnSignUp;
     private RelativeLayout mLayout;
     private Validator mValidator;
+    private Realm realm;
 
     public RegistrationFragment() {
 
@@ -76,7 +82,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         btnSignUp = registrationFragment.findViewById(R.id.btn_signup);
         btnSignUp.setOnClickListener(this);
         mValidator = new Validator();
-
+        realm = Realm.getDefaultInstance();
         etRegistrationEmail = registrationFragment.findViewById(R.id.et_registration_email);
         etRegistrationPassword = registrationFragment.findViewById(R.id.et_registration_password);
         etRegistrationFirstName = registrationFragment.findViewById(R.id.et_registration_first_name);
@@ -121,6 +127,56 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         spnUserType.setOnItemSelectedListener(this);
     }
 
+    private boolean checkEmailExistence(String email){
+        try {
+            if (!realm.isInTransaction()) {
+                realm.beginTransaction();
+            }
+
+            RealmResults <User> userRealmResults = realm.where(User.class).findAll();
+            for (User result : userRealmResults) {
+                if (result.getEmail().equals(etRegistrationEmail.getText().toString().trim())) {
+                    Log.d("email already existed: ", result.getEmail());
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean saveIntoDatabase(){
+        try {
+
+            if (!realm.isInTransaction()) {
+                realm.beginTransaction();
+            }
+
+            Number currentIdNum = realm.where(User.class).max("userId");
+            int nextId = currentIdNum == null? 1 : currentIdNum.intValue() + 1;
+
+            User user = new User();
+            user.setUserId(nextId);
+            user.setFirstName(etRegistrationFirstName.getText().toString().trim());
+            user.setLastName(etRegistrationLastName.getText().toString().trim());
+            user.setEmail(etRegistrationEmail.getText().toString().trim());
+            user.setPassword(etRegistrationPassword.getText().toString().trim());
+            user.setMobileNumber(getEtRegistrationMobile.getText().toString().trim());
+            user.setUserType(spnUserType.getSelectedItem().toString());
+
+
+            realm.copyToRealmOrUpdate(user);
+            realm.commitTransaction();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("error : ",e.toString());
+        }
+        return false;
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -135,6 +191,16 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
                     Snackbar.make(mLayout,getResources().getString(R.string.error_mobile_validation),Snackbar.LENGTH_LONG).show();
                 }else if (spnUserType.getSelectedItem().toString().equals(getResources().getString(R.string.spn_default_text))){
                     Snackbar.make(mLayout,getResources().getString(R.string.warning_spinner),Snackbar.LENGTH_LONG).show();
+                }else {
+                    if (!checkEmailExistence(etRegistrationEmail.getText().toString().trim())) {
+                        if (saveIntoDatabase()){
+                            Snackbar.make(mLayout,getResources().getString(R.string.success_entry),Snackbar.LENGTH_LONG).show();
+                        }else {
+                            Snackbar.make(mLayout,getResources().getString(R.string.failed_entry),Snackbar.LENGTH_LONG).show();
+                        }
+                    }else {
+                        Snackbar.make(mLayout,getResources().getString(R.string.text_email_exists),Snackbar.LENGTH_LONG).show();
+                    }
                 }
                 break;
         }

@@ -14,4 +14,7 @@
     <string name="error_password_validation">Password should contain one special character and minimum 8 characters required</string>
     <string name="error_email_validation">Email is not valid</string>
     <string name="text_account_type">Your account type is Private</string>
+    <string name="text_email_exists">Email already exist</string>
+    <string name="success_entry">Saved Successfully</string>
+    <string name="failed_entry">Save Unsuccessful</string>
 </resources>
