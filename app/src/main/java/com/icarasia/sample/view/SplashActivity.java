@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         initHandler();
     }
     private void init(){
-        imageView =(ImageView) findViewById(R.id.imgV_random) ;
+        imageView = findViewById(R.id.imgV_random) ;
         imageList = new int[]{R.drawable.dominow,R.drawable.dvb,R.drawable.fb,R.drawable.linkedin,R.drawable.ncc,R.drawable.twitter};
 
     }
@@ -41,7 +41,6 @@ public class SplashActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 imageView.setBackgroundResource(getRandomImageFromList());
             }
-
             public void onFinish() {
                 Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(i);

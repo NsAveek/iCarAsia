@@ -29,15 +29,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLogout = findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(this);
     }
+
     private void editMobileNumber(){
         //TODO: Open a dialog and edit the mobile number and save to Realm Database
     }
+
     private void showUserType(){
         Toast.makeText(this,getResources().getString(R.string.text_account_type),Toast.LENGTH_SHORT).show();
     }
+
     private void logout(){
         // TODO : Show Dialog "Logging Out " > Then move to Splash Screen Page
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){

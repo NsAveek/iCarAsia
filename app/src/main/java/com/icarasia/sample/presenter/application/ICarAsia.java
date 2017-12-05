@@ -1,4 +1,4 @@
-package com.icarasia.sample.presenter;
+package com.icarasia.sample.presenter.application;
 
 import android.app.Application;
 
@@ -35,6 +35,7 @@ public class ICarAsia extends Application {
         initRealm();
 
     }
+
     private void initializeInstance() {
     }
 

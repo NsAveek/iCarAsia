@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     private Button btnSignUp;
     private RelativeLayout mLayout;
     private Validator mValidator;
+    private ViewPager viewPager;
     private Realm realm;
 
     public RegistrationFragment() {
@@ -115,6 +117,12 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         super.onResume();
     }
 
+    private void switchTab(){
+        viewPager = getActivity().findViewById(
+                R.id.pager_login);
+        viewPager.setCurrentItem(0);
+    }
+
     private boolean checkEmpty(){ // TODO : Check Spinner data
         if (etRegistrationEmail.getText().toString().trim().equals("") || etRegistrationPassword.getText().toString().trim().equals("")
                 || getEtRegistrationMobile.getText().toString().trim().equals("")) return true;
@@ -184,22 +192,23 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
                 if (checkEmpty()){
                     Snackbar.make(mLayout,getResources().getString(R.string.warning_form_completion),Snackbar.LENGTH_SHORT).show();
                 }else if (!mValidator.validateEmail(etRegistrationEmail.getText().toString().trim())){
-                    Snackbar.make(mLayout,getResources().getString(R.string.error_email_validation),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.error_email_validation),Snackbar.LENGTH_SHORT).show();
                 }else if (!mValidator.validatePassword(etRegistrationPassword.getText().toString().trim())){
-                    Snackbar.make(mLayout,getResources().getString(R.string.error_password_validation),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.error_password_validation),Snackbar.LENGTH_SHORT).show();
                 }else if (!mValidator.validateMobile(getEtRegistrationMobile.getText().toString().trim())){
-                    Snackbar.make(mLayout,getResources().getString(R.string.error_mobile_validation),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.error_mobile_validation),Snackbar.LENGTH_SHORT).show();
                 }else if (spnUserType.getSelectedItem().toString().equals(getResources().getString(R.string.spn_default_text))){
-                    Snackbar.make(mLayout,getResources().getString(R.string.warning_spinner),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mLayout,getResources().getString(R.string.warning_spinner),Snackbar.LENGTH_SHORT).show();
                 }else {
                     if (!checkEmailExistence(etRegistrationEmail.getText().toString().trim())) {
                         if (saveIntoDatabase()){
-                            Snackbar.make(mLayout,getResources().getString(R.string.success_entry),Snackbar.LENGTH_LONG).show();
-                        }else {
-                            Snackbar.make(mLayout,getResources().getString(R.string.failed_entry),Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(mLayout,getResources().getString(R.string.success_entry),Snackbar.LENGTH_SHORT).show();
+                            switchTab();
+                            }else {
+                            Snackbar.make(mLayout,getResources().getString(R.string.failed_entry),Snackbar.LENGTH_SHORT).show();
                         }
                     }else {
-                        Snackbar.make(mLayout,getResources().getString(R.string.text_email_exists),Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(mLayout,getResources().getString(R.string.text_email_exists),Snackbar.LENGTH_SHORT).show();
                     }
                 }
                 break;
