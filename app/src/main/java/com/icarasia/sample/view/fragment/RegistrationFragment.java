@@ -217,15 +217,15 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-        if (position == 0) {
-
-        }else if (position == 1){
-
-        }else if (position == 2){
-
-        }else if (position == 3){
-
-        }
+//        if (position == 0) {
+//
+//        }else if (position == 1){
+//
+//        }else if (position == 2){
+//
+//        }else if (position == 3){
+//
+//        }
     }
 
     @Override

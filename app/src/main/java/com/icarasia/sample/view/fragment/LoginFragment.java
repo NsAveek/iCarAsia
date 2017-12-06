@@ -1,6 +1,7 @@
 package com.icarasia.sample.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.icarasia.sample.R;
+import com.icarasia.sample.main.MainActivity;
 import com.icarasia.sample.model.Validator;
 
 import java.util.regex.Matcher;
@@ -22,19 +24,20 @@ import java.util.regex.Pattern;
  * Created by Aveek on 04/12/2017.
  */
 
-public class LoginFragment extends Fragment implements View.OnClickListener{
+public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private EditText etEmail,etPassword;
+    private EditText etEmail, etPassword;
     private Button btnLogin;
     private RelativeLayout mLayout;
     private Validator mValidator;
 
     public LoginFragment() {
     }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -67,7 +70,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View loginFragment = inflater.inflate(R.layout.fragment_login, container, false);
-        mLayout = (RelativeLayout) loginFragment.findViewById(R.id.rl_login_fragment) ;
+        mLayout = (RelativeLayout) loginFragment.findViewById(R.id.rl_login_fragment);
         mValidator = new Validator();
         etEmail = (EditText) loginFragment.findViewById(R.id.et_login_email);
         etPassword = (EditText) loginFragment.findViewById(R.id.et_login_password);
@@ -76,6 +79,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
         return loginFragment;
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
     }
@@ -102,20 +106,30 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     }
 
 
-    private boolean checkEmpty(){
-        if (etEmail.getText().toString().trim().equals("") || etPassword.getText().toString().trim().equals("")) return true;
+    private boolean checkEmpty() {
+        if (etEmail.getText().toString().trim().equals("") || etPassword.getText().toString().trim().equals(""))
+            return true;
         return false;
     }
+
+    private void switchToHome() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.putExtra("userEmail", etEmail.getText().toString().trim());
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_login:
-                if (checkEmpty()){
-                    Snackbar.make(mLayout,getResources().getString(R.string.warning_form_completion),Snackbar.LENGTH_LONG).show();
-                }else if (!mValidator.validateEmail(etEmail.getText().toString().trim())){
-                    Snackbar.make(mLayout,getResources().getString(R.string.error_email_validation),Snackbar.LENGTH_LONG).show();
-                }else if (!mValidator.validatePassword(etPassword.getText().toString().trim())){
-                    Snackbar.make(mLayout,getResources().getString(R.string.error_password_validation),Snackbar.LENGTH_LONG).show();
+                if (checkEmpty()) {
+                    Snackbar.make(mLayout, getResources().getString(R.string.warning_form_completion), Snackbar.LENGTH_LONG).show();
+                } else if (!mValidator.validateEmail(etEmail.getText().toString().trim())) {
+                    Snackbar.make(mLayout, getResources().getString(R.string.error_email_validation), Snackbar.LENGTH_LONG).show();
+                } else if (!mValidator.validatePassword(etPassword.getText().toString().trim())) {
+                    Snackbar.make(mLayout, getResources().getString(R.string.error_password_validation), Snackbar.LENGTH_LONG).show();
+                } else {
+                    switchToHome();
                 }
                 break;
         }
