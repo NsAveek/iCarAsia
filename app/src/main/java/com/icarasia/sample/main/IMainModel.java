@@ -14,5 +14,4 @@ public interface IMainModel {
         void onRunning();
         void onFinished();
     }
-
 }
