@@ -1,6 +1,9 @@
 package com.icarasia.sample.main;
 
+import com.icarasia.sample.R;
+import com.icarasia.sample.application.ICarAsia;
 import com.icarasia.sample.model.User;
+import com.icarasia.sample.model.Validator;
 
 /**
  * Created by Aveek on 06/12/2017.
@@ -10,11 +13,13 @@ public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.O
 
     private IMainView mainView;
     private IMainModel mainModel;
+    private Validator mValidator;
 
 
     public MainPresenterImpl (IMainView mainView,IMainModel mainModel){
         this.mainView = mainView;
         this.mainModel= mainModel;
+        mValidator = new Validator();
     }
 
     @Override
@@ -24,14 +29,19 @@ public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.O
 
     @Override
     public void updateMobileNumber(String email, String newMobileNumber) {
-        try{
-            if (mainModel.updateUserMobileModel(email,newMobileNumber)){
-                mainView.showMessage("Successfully Updated");
-            }else {
-                mainView.showMessage("Update Unsuccessful");
+        if (mValidator.validateMobile(newMobileNumber)) {
+            try {
+                if (mainModel.updateUserMobileModel(email, newMobileNumber)) {
+                    mainView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.success_update));
+                } else {
+                    mainView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.failed_update));
+
+                }
+            } catch (Exception e) {
+                mainView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.error_general));
             }
-        }catch (Exception e){
-            mainView.showMessage("Error Occurred ! ");
+        }else{
+            mainView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.error_mobile_validation));
         }
     }
 
@@ -48,6 +58,16 @@ public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.O
     public boolean logout() {
         mainModel.logoutModel(this);
         return true;
+    }
+
+    @Override
+    public void setTextViewValues(String email) {
+        try {
+           User user = mainModel.getUserInfo(email);
+           if (user!=null) mainView.assignTextValues(user.getFirstName(),user.getLastName(),user.getMobileNumber());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

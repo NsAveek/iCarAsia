@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.icarasia.sample.R;
-import com.icarasia.sample.utils.adapter.LoginPagerAdapter;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -21,8 +20,6 @@ public class LoginActivity extends AppCompatActivity {
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_login);
         tabLayout.addTab(tabLayout.newTab().setText("Login"));
         tabLayout.addTab(tabLayout.newTab().setText("Registration"));
-
-
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager_login);
         mAdapter = new LoginPagerAdapter

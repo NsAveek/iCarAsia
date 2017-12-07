@@ -33,6 +33,7 @@ public class LoginFragmentPresenterImpl implements ILoginFragmentPresenter {
             loginFragmentView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.error_password_validation));
         } else {
             if (loginFragmentModel.validateLogin(etEmail.getText().toString().trim(),etPassword.getText().toString().trim())){
+                loginFragmentView.clearFields();
                 loginFragmentView.switchActivity();
             }else {
                 loginFragmentView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.error_invalid_auth));

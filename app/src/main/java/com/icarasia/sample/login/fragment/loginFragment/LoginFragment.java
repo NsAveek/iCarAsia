@@ -117,4 +117,9 @@ public class LoginFragment extends Fragment implements ILoginFragmentView,View.O
         intent.putExtra("userEmail", etEmail.getText().toString().trim());
         startActivity(intent);
     }
+    @Override
+    public void clearFields(){
+        etEmail.setText("");
+        etPassword.setText("");
+    }
 }

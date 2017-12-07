@@ -51,6 +51,7 @@ public class RegistrationFragmentPresenterImpl implements IRegistrationFragmentP
                         etLastName.getText().toString().trim(),etRegistrationEmail.getText().toString().trim(),etRegistrationPassword.getText().toString().trim(),
                         etRegistrationMobile.getText().toString().trim(),spinnerText)){
                     registrationFragmentView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.success_entry));
+                    registrationFragmentView.clearFields();
                     registrationFragmentView.switchTab();
                 }else {
                     registrationFragmentView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.failed_entry));

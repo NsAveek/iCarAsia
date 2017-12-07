@@ -9,4 +9,5 @@ import android.content.Context;
 public interface ILoginFragmentView {
     void showMessage(String message);
     void switchActivity();
+    void clearFields();
 }

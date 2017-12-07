@@ -12,4 +12,5 @@ public interface IRegistrationFragmentView {
     void switchTab();
     void setupSpinnerAdapter(ArrayAdapter<String> adapter);
     void setOnItemSelectedListener(Context context);
+    void clearFields();
 }

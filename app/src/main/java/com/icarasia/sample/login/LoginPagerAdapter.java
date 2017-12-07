@@ -1,4 +1,4 @@
-package com.icarasia.sample.utils.adapter;
+package com.icarasia.sample.login;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,7 +8,7 @@ import com.icarasia.sample.login.fragment.loginFragment.LoginFragment;
 import com.icarasia.sample.login.fragment.registrationFragment.RegistrationFragment;
 
 /**
- * Created by admin on 11/17/2016.
+ * Created by Aveek on 12/06/2017.
  */
 public class LoginPagerAdapter extends FragmentStatePagerAdapter{
     int mNumOfTabs;
@@ -39,16 +39,4 @@ public class LoginPagerAdapter extends FragmentStatePagerAdapter{
     public int getCount() {
         return mNumOfTabs;
     }
-
-//    @Override
-//    public void onDBTByDoFragmentInteraction() {
-//        if (tabDBT!=null){
-//            tabDBT.someMethod();
-//        }
-//    }
-
-//    public interface OnDBTPagerInteractionListener {
-//        // TODO: Update argument type and name
-//        void onDBTPagerInteraction(Uri uri);
-//    }
 }

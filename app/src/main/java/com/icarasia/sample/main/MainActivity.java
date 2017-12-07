@@ -13,8 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.icarasia.sample.R;
-import com.icarasia.sample.model.User;
-import com.icarasia.sample.view.SplashActivity;
+import com.icarasia.sample.splash.SplashActivity;
 
 public class MainActivity extends AppCompatActivity implements IMainView,View.OnClickListener{
 
@@ -23,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements IMainView,View.On
     private String loggedInUserEmail;
     private IMainPresenter presenter;
     private AlertDialog alertDialog;
+    private static final int TIME_DELAY = 2000;
+    private static long back_pressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,11 @@ public class MainActivity extends AppCompatActivity implements IMainView,View.On
         btnUserType.setOnClickListener(this);
         btnLogout = findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(this);
+        tvFirstName=findViewById(R.id.tv_main_first_name);
+        tvSecondName=findViewById(R.id.tv_main_last_name);
+        tvMobileNumber = findViewById(R.id.tv_main_mobile);
         presenter = new MainPresenterImpl(this,new MainModel());
+        presenter.setTextViewValues(loggedInUserEmail);
     }
 
     @Override
@@ -111,6 +116,13 @@ public class MainActivity extends AppCompatActivity implements IMainView,View.On
         alertDialog.show();
     }
 
+    @Override
+    public void assignTextValues(String firstName, String lastName, String mobile) {
+        tvFirstName.setText(firstName);
+        tvSecondName.setText(lastName);
+        tvMobileNumber.setText(mobile);
+    }
+
 
     @Override
     protected void onResume(){
@@ -122,5 +134,17 @@ public class MainActivity extends AppCompatActivity implements IMainView,View.On
     protected void onDestroy(){
         super.onDestroy();
         presenter.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+            super.onBackPressed();
+        } else {
+            Toast.makeText(getBaseContext(), "Press once again to exit!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
 }

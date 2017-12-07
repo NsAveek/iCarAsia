@@ -157,4 +157,13 @@ public class RegistrationFragment extends Fragment implements IRegistrationFragm
     public void showMessage(String message) {
         Snackbar.make(mLayout,message,Snackbar.LENGTH_LONG).show();
     }
+    @Override
+    public void clearFields(){
+        etRegistrationEmail.setText("");
+        etRegistrationPassword.setText("");
+        etRegistrationMobile.setText("");
+        etRegistrationFirstName.setText("");
+        etRegistrationLastName.setText("");
+        spnUserType.setSelection(0);
+    }
 }

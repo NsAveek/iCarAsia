@@ -9,4 +9,5 @@ public interface IMainView {
     void switchActivity();
     void showDialog(String text);
     void editMobileDialog();
+    void assignTextValues(String firstName, String lastName, String mobile);
 }

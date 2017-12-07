@@ -8,12 +8,13 @@ import com.icarasia.sample.model.User;
 
 public interface IMainPresenter {
 
+    boolean logout();
     void onResume();
     void onDestroy();
     void editMobileNumber();
     void updateMobileNumber(String email,String newMobileNumber);
+    void setTextViewValues(String email);
     String showUserType(String email);
     User getUserInfo(String email) throws Exception;
-    boolean logout();
 
 }
