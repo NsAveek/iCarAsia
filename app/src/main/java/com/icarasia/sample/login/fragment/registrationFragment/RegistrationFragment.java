@@ -1,7 +1,6 @@
 package com.icarasia.sample.login.fragment.registrationFragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -19,29 +18,26 @@ import android.widget.Spinner;
 
 import com.icarasia.sample.R;
 import com.icarasia.sample.model.User;
-import com.icarasia.sample.model.Validator;
 
-import io.realm.Realm;
 import io.realm.RealmResults;
 
 /**
  * Created by Aveek on 04/12/2017.
  */
 
-public class RegistrationFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
+public class RegistrationFragment extends Fragment implements IRegistrationFragmentView,View.OnClickListener,AdapterView.OnItemSelectedListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
     private EditText etRegistrationEmail,etRegistrationPassword,
-            etRegistrationFirstName,etRegistrationLastName,getEtRegistrationMobile;
+            etRegistrationFirstName,etRegistrationLastName, etRegistrationMobile;
     private Spinner spnUserType;
     private Button btnSignUp;
     private RelativeLayout mLayout;
-    private Validator mValidator;
     private ViewPager viewPager;
-    private Realm realm;
+    private IRegistrationFragmentPresenter presenter;
 
     public RegistrationFragment() {
 
@@ -83,19 +79,16 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         spnUserType= registrationFragment.findViewById(R.id.spn_registration_user_type);
         btnSignUp = registrationFragment.findViewById(R.id.btn_signup);
         btnSignUp.setOnClickListener(this);
-        mValidator = new Validator();
-        realm = Realm.getDefaultInstance();
         etRegistrationEmail = registrationFragment.findViewById(R.id.et_registration_email);
         etRegistrationPassword = registrationFragment.findViewById(R.id.et_registration_password);
         etRegistrationFirstName = registrationFragment.findViewById(R.id.et_registration_first_name);
         etRegistrationLastName = registrationFragment.findViewById(R.id.et_registration_last_name);
-        getEtRegistrationMobile =registrationFragment.findViewById(R.id.et_registration_mobile_number);
+        etRegistrationMobile =registrationFragment.findViewById(R.id.et_registration_mobile_number);
 
-        setUpSpinnerData();
+        presenter = new RegistrationFragmentPresenterImpl(this,new RegistrationFragmentModel());
+        presenter.setUpSpinnerData(getActivity());
+
         return registrationFragment;
-    }
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
     }
 
     @Override
@@ -117,100 +110,17 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         super.onResume();
     }
 
-    private void switchTab(){
+    public void switchTab(){
         viewPager = getActivity().findViewById(
                 R.id.pager_login);
         viewPager.setCurrentItem(0);
-    }
-
-    private boolean checkEmpty(){ // TODO : Check Spinner data
-        if (etRegistrationEmail.getText().toString().trim().equals("") || etRegistrationPassword.getText().toString().trim().equals("")
-                || getEtRegistrationMobile.getText().toString().trim().equals("")) return true;
-        return false;
-    }
-
-    private void setUpSpinnerData() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_usertype, R.id.txtSpn,getResources().getStringArray(R.array.usertype));
-        spnUserType.setAdapter(adapter);
-        spnUserType.setOnItemSelectedListener(this);
-    }
-
-    private boolean checkEmailExistence(String email){
-        try {
-            if (!realm.isInTransaction()) {
-                realm.beginTransaction();
-            }
-
-            RealmResults <User> userRealmResults = realm.where(User.class).findAll();
-            for (User result : userRealmResults) {
-                if (result.getEmail().equals(etRegistrationEmail.getText().toString().trim())) {
-                    Log.d("email already existed: ", result.getEmail());
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private boolean saveIntoDatabase(){
-        try {
-
-            if (!realm.isInTransaction()) {
-                realm.beginTransaction();
-            }
-
-            Number currentIdNum = realm.where(User.class).max("userId");
-            int nextId = currentIdNum == null? 1 : currentIdNum.intValue() + 1;
-
-            User user = new User();
-            user.setUserId(nextId);
-            user.setFirstName(etRegistrationFirstName.getText().toString().trim());
-            user.setLastName(etRegistrationLastName.getText().toString().trim());
-            user.setEmail(etRegistrationEmail.getText().toString().trim());
-            user.setPassword(etRegistrationPassword.getText().toString().trim());
-            user.setMobileNumber(getEtRegistrationMobile.getText().toString().trim());
-            user.setUserType(spnUserType.getSelectedItem().toString());
-
-
-            realm.copyToRealmOrUpdate(user);
-            realm.commitTransaction();
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("error : ",e.toString());
-        }
-        return false;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_signup:
-                if (checkEmpty()){
-                    Snackbar.make(mLayout,getResources().getString(R.string.warning_form_completion),Snackbar.LENGTH_SHORT).show();
-                }else if (!mValidator.validateEmail(etRegistrationEmail.getText().toString().trim())){
-                    Snackbar.make(mLayout,getResources().getString(R.string.error_email_validation),Snackbar.LENGTH_SHORT).show();
-                }else if (!mValidator.validatePassword(etRegistrationPassword.getText().toString().trim())){
-                    Snackbar.make(mLayout,getResources().getString(R.string.error_password_validation),Snackbar.LENGTH_SHORT).show();
-                }else if (!mValidator.validateMobile(getEtRegistrationMobile.getText().toString().trim())){
-                    Snackbar.make(mLayout,getResources().getString(R.string.error_mobile_validation),Snackbar.LENGTH_SHORT).show();
-                }else if (spnUserType.getSelectedItem().toString().equals(getResources().getString(R.string.spn_default_text))){
-                    Snackbar.make(mLayout,getResources().getString(R.string.warning_spinner),Snackbar.LENGTH_SHORT).show();
-                }else {
-                    if (!checkEmailExistence(etRegistrationEmail.getText().toString().trim())) {
-                        if (saveIntoDatabase()){
-                            Snackbar.make(mLayout,getResources().getString(R.string.success_entry),Snackbar.LENGTH_SHORT).show();
-                            switchTab();
-                            }else {
-                            Snackbar.make(mLayout,getResources().getString(R.string.failed_entry),Snackbar.LENGTH_SHORT).show();
-                        }
-                    }else {
-                        Snackbar.make(mLayout,getResources().getString(R.string.text_email_exists),Snackbar.LENGTH_SHORT).show();
-                    }
-                }
+                presenter.validateFields(etRegistrationFirstName,etRegistrationLastName,etRegistrationEmail,etRegistrationPassword,etRegistrationMobile,spnUserType.getSelectedItem().toString());
                 break;
         }
     }
@@ -231,5 +141,20 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    public void setupSpinnerAdapter(ArrayAdapter<String> adapter){
+        spnUserType.setAdapter(adapter);
+    }
+
+    @Override
+    public void setOnItemSelectedListener(Context context){
+        spnUserType.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(mLayout,message,Snackbar.LENGTH_LONG).show();
     }
 }

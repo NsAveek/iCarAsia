@@ -5,4 +5,7 @@ package com.icarasia.sample.login.fragment.registrationFragment;
  */
 
 public interface IRegistrationFragmentModel {
+
+    boolean checkEmailExistence(String email);
+    boolean saveIntoDatabase(String firstName,String lastName,String email,String pass,String mobile,String userType);
 }
