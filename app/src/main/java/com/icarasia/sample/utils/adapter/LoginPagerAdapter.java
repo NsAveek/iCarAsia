@@ -1,12 +1,11 @@
-package com.icarasia.sample.presenter.adapter;
+package com.icarasia.sample.utils.adapter;
 
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.icarasia.sample.view.fragment.LoginFragment;
-import com.icarasia.sample.view.fragment.RegistrationFragment;
+import com.icarasia.sample.login.fragment.loginFragment.LoginFragment;
+import com.icarasia.sample.login.fragment.registrationFragment.RegistrationFragment;
 
 /**
  * Created by admin on 11/17/2016.

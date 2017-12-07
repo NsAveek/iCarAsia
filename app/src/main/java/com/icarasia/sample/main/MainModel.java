@@ -1,12 +1,8 @@
 package com.icarasia.sample.main;
 
-import android.content.Intent;
 import android.os.CountDownTimer;
-import android.util.Log;
 
 import com.icarasia.sample.model.User;
-import com.icarasia.sample.view.LoginActivity;
-import com.icarasia.sample.view.SplashActivity;
 
 import io.realm.Realm;
 import io.realm.RealmResults;

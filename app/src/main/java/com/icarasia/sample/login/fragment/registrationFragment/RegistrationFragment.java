@@ -1,4 +1,4 @@
-package com.icarasia.sample.view.fragment;
+package com.icarasia.sample.login.fragment.registrationFragment;
 
 import android.content.Context;
 import android.net.Uri;

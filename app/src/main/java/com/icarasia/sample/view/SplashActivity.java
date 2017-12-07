@@ -2,13 +2,12 @@ package com.icarasia.sample.view;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.icarasia.sample.R;
+import com.icarasia.sample.login.LoginActivity;
 
 import java.util.Random;
 

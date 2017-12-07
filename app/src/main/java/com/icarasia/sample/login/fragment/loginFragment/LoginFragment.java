@@ -1,4 +1,4 @@
-package com.icarasia.sample.view.fragment;
+package com.icarasia.sample.login.fragment.loginFragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,14 +17,11 @@ import com.icarasia.sample.R;
 import com.icarasia.sample.main.MainActivity;
 import com.icarasia.sample.model.Validator;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Created by Aveek on 04/12/2017.
  */
 
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment implements ILoginFragmentView,View.OnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -33,6 +30,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private EditText etEmail, etPassword;
     private Button btnLogin;
     private RelativeLayout mLayout;
+    private ILoginFragmentPresenter presenter;
     private Validator mValidator;
 
     public LoginFragment() {
@@ -68,20 +66,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View loginFragment = inflater.inflate(R.layout.fragment_login, container, false);
-        mLayout = (RelativeLayout) loginFragment.findViewById(R.id.rl_login_fragment);
-        mValidator = new Validator();
-        etEmail = (EditText) loginFragment.findViewById(R.id.et_login_email);
-        etPassword = (EditText) loginFragment.findViewById(R.id.et_login_password);
-        btnLogin = (Button) loginFragment.findViewById(R.id.btn_login);
+        mLayout = loginFragment.findViewById(R.id.rl_login_fragment);
+        etEmail = loginFragment.findViewById(R.id.et_login_email);
+        etPassword = loginFragment.findViewById(R.id.et_login_password);
+        btnLogin = loginFragment.findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(this);
-
+        presenter = new LoginFragmentPresenterImpl(this,new LoginFragmentModel());
         return loginFragment;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
     }
 
     @Override
@@ -92,12 +85,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onDetach() {
         super.onDetach();
-//        mListener = null;
     }
 
     public void onPause() {
         super.onPause();
-//        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
     }
 
     @Override
@@ -106,32 +97,24 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private boolean checkEmpty() {
-        if (etEmail.getText().toString().trim().equals("") || etPassword.getText().toString().trim().equals(""))
-            return true;
-        return false;
-    }
-
-    private void switchToHome() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.putExtra("userEmail", etEmail.getText().toString().trim());
-        startActivity(intent);
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                if (checkEmpty()) {
-                    Snackbar.make(mLayout, getResources().getString(R.string.warning_form_completion), Snackbar.LENGTH_LONG).show();
-                } else if (!mValidator.validateEmail(etEmail.getText().toString().trim())) {
-                    Snackbar.make(mLayout, getResources().getString(R.string.error_email_validation), Snackbar.LENGTH_LONG).show();
-                } else if (!mValidator.validatePassword(etPassword.getText().toString().trim())) {
-                    Snackbar.make(mLayout, getResources().getString(R.string.error_password_validation), Snackbar.LENGTH_LONG).show();
-                } else {
-                    switchToHome();
-                }
+                presenter.validateFields(etEmail,etPassword);
                 break;
         }
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Snackbar.make(mLayout, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void switchActivity() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.putExtra("userEmail", etEmail.getText().toString().trim());
+        startActivity(intent);
     }
 }

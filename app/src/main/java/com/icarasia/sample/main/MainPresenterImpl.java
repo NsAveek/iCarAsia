@@ -19,7 +19,6 @@ public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.O
 
     @Override
     public void editMobileNumber(){
-        //TODO: Open a dialog and edit the mobile number and save to Realm Database
         mainView.editMobileDialog();
     }
 

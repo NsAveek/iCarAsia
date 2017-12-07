@@ -87,8 +87,12 @@ public class MainActivity extends AppCompatActivity implements IMainView,View.On
         alertDialog.setTitle("Please edit your mobile number");
         alertDialog.setCancelable(false);
 
-        final EditText etComments = (EditText) view.findViewById(R.id.etComments);
-
+        final EditText etComments = view.findViewById(R.id.etComments);
+        try {
+            etComments.setText(presenter.getUserInfo(loggedInUserEmail).getMobileNumber());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

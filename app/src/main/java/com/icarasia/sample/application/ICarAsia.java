@@ -1,4 +1,4 @@
-package com.icarasia.sample.presenter.application;
+package com.icarasia.sample.application;
 
 import android.app.Application;
 
