@@ -5,38 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.icarasia.sample.main.MainActivity"
-    android:id="@+id/rl_main_activity">
+    android:id="@+id/rl_main_activity"
+    android:padding="@dimen/dp16">
+
+    <TextView
+        android:id="@+id/tv_main_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome,"/>
 
     <TextView
         android:id="@+id/tv_main_first_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:layout_below="@+id/tv_main_welcome"
+        android:textSize="@dimen/sp25"/>
     <TextView
         android:id="@+id/tv_main_last_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:layout_toRightOf="@+id/tv_main_first_name"/>
+        android:layout_alignTop="@+id/tv_main_first_name"
+        android:layout_alignBottom="@+id/tv_main_first_name"
+        android:layout_toRightOf="@+id/tv_main_first_name"
+        android:layout_marginLeft="@dimen/dp5"
+        android:textSize="@dimen/sp25"/>
+    <TextView
+        android:id="@+id/tv_main_mobile_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_main_first_name"
+        android:layout_marginTop="@dimen/dp5"
+        android:text="Your current mobile number is, "/>
+
     <TextView
         android:id="@+id/tv_main_mobile"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:layout_below="@+id/tv_main_first_name"/>
+        android:layout_height="@dimen/dp50"
+        android:layout_below="@+id/tv_main_mobile_text"
+        android:layout_marginTop="@dimen/dp5"
+        android:textSize="@dimen/sp25" />
     <Button
         android:id="@+id/btn_main_edit_mobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tv_main_mobile"
         android:layout_below="@+id/tv_main_first_name"
+        android:layout_alignTop="@+id/tv_main_mobile"
+        android:layout_alignBottom="@+id/tv_main_mobile"
+        android:layout_marginLeft="@dimen/dp5"
         android:text="Edit"/>
+
     <Button
         android:id="@+id/btn_main_user_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User Type"
-        android:layout_centerInParent="true"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="User Type" />
     <Button
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"

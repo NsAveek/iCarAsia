@@ -8,6 +8,6 @@ import android.content.Context;
 
 public interface ILoginFragmentView {
     void showMessage(String message);
-    void switchActivity();
+    void switchActivity(String email);
     void clearFields();
 }

@@ -112,9 +112,9 @@ public class LoginFragment extends Fragment implements ILoginFragmentView,View.O
     }
 
     @Override
-    public void switchActivity() {
+    public void switchActivity(String userEmail) {
         Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.putExtra("userEmail", etEmail.getText().toString().trim());
+        intent.putExtra("userEmail", userEmail);
         startActivity(intent);
     }
     @Override

@@ -33,6 +33,7 @@ public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.O
             try {
                 if (mainModel.updateUserMobileModel(email, newMobileNumber)) {
                     mainView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.success_update));
+                    setTextViewValues(email);
                 } else {
                     mainView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.failed_update));
 

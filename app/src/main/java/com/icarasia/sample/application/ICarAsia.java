@@ -30,8 +30,6 @@ public class ICarAsia extends Application {
         super.onCreate();
         sInstance = this;
         sInstance.initializeInstance();
-
-        Stetho.initializeWithDefaults(this);
         initRealm();
 
     }
