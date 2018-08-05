@@ -15,21 +15,19 @@ public class SplashPresenterImpl implements ISplashPresenter{
 
     private ISplashView splashView;
     private int TIME_OUT = 5000;
-    private int imageList[];
 
     public SplashPresenterImpl(ISplashView splashView){
         this.splashView = splashView;
     }
 
-    private int getRandomImageFromList() {
+    public int getRandomImageFromList(int [] imageList) {
         int rnd = new Random().nextInt(imageList.length);
         return imageList[rnd];
     }
-    public void initHandler(int[]imageList) {
-        this.imageList = imageList;
+    public void initHandler(final int [] imageList) {
         new CountDownTimer(TIME_OUT, 1000) {
             public void onTick(long millisUntilFinished) {
-                splashView.setupImageBackground(getRandomImageFromList());
+                splashView.setupImageBackground(getRandomImageFromList(imageList));
             }
             public void onFinish() {
                 splashView.finishActivity();

@@ -36,7 +36,6 @@ public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.O
                     setTextViewValues(email);
                 } else {
                     mainView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.failed_update));
-
                 }
             } catch (Exception e) {
                 mainView.showMessage(ICarAsia.getInstance().getApplicationContext().getResources().getString(R.string.error_general));
@@ -51,7 +50,7 @@ public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.O
         try {
            return "Your account type is "+getUserInfo(email).getUserType();
         }catch (Exception e){
-            return "Error Occurred!";
+            return e.getMessage();
         }
     }
 

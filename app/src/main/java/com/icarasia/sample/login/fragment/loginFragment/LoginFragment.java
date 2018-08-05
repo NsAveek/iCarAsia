@@ -1,11 +1,13 @@
 package com.icarasia.sample.login.fragment.loginFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ public class LoginFragment extends Fragment implements ILoginFragmentView,View.O
     private RelativeLayout mLayout;
     private ILoginFragmentPresenter presenter;
     private Validator mValidator;
+    private View loginFragmentView;
 
     public LoginFragment() {
     }
@@ -62,6 +65,9 @@ public class LoginFragment extends Fragment implements ILoginFragmentView,View.O
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    public View getThisActivity(){
+        return loginFragmentView;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +80,7 @@ public class LoginFragment extends Fragment implements ILoginFragmentView,View.O
         btnLogin = loginFragment.findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(this);
         presenter = new LoginFragmentPresenterImpl(this,new LoginFragmentModel());
+        this.loginFragmentView = loginFragment;
         return loginFragment;
     }
 

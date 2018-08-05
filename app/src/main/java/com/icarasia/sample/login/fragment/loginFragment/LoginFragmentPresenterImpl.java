@@ -42,7 +42,7 @@ public class LoginFragmentPresenterImpl implements ILoginFragmentPresenter {
         }
     }
 
-    private boolean checkEmpty(EditText etEmail, EditText etPassword){
+    public boolean checkEmpty(EditText etEmail, EditText etPassword){
         if (etEmail.getText().toString().trim().equals("") || etPassword.getText().toString().trim().equals(""))
             return true;
         return false;
