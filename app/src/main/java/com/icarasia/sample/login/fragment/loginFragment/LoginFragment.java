@@ -1,13 +1,10 @@
 package com.icarasia.sample.login.fragment.loginFragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +16,7 @@ import com.icarasia.sample.R;
 import com.icarasia.sample.main.MainActivity;
 import com.icarasia.sample.model.Validator;
 
+
 /**
  * Created by Aveek on 04/12/2017.
  */
@@ -29,7 +27,7 @@ public class LoginFragment extends Fragment implements ILoginFragmentView,View.O
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private EditText etEmail, etPassword;
+    public EditText etEmail, etPassword;
     private Button btnLogin;
     private RelativeLayout mLayout;
     private ILoginFragmentPresenter presenter;
