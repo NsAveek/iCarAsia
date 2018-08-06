@@ -9,7 +9,7 @@ import com.icarasia.sample.model.Validator;
  * Created by Aveek on 06/12/2017.
  */
 
-public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.OnFinishedListener{
+public class MainPresenterImpl implements IMainPresenter,IMainModel.OnFinishedListener{
 
     private IMainView mainView;
     private IMainModel mainModel;
@@ -17,6 +17,16 @@ public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.O
 
 
     public MainPresenterImpl (IMainView mainView,IMainModel mainModel){
+        if (mainView == null) {
+            throw new RuntimeException("IMainView should not null");
+        }
+        if (mainModel == null) {
+            throw new RuntimeException("MainModel should not null");
+        }
+
+
+
+
         this.mainView = mainView;
         this.mainModel= mainModel;
         mValidator = new Validator();
@@ -85,15 +95,7 @@ public class MainPresenterImpl implements IMainPresenter,IMainModel,IMainModel.O
         return mainModel.getUserInfo(email);
     }
 
-    @Override
-    public boolean updateUserMobileModel(String email, String newMobileNumber) throws Exception {
-        return false;
-    }
 
-    @Override
-    public void logoutModel(OnFinishedListener listener) {
-
-    }
 
     @Override
     public void onRunning() {

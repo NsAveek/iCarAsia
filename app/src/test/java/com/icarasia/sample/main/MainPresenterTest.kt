@@ -10,11 +10,31 @@ import org.mockito.Mockito.*
 class MainPresenterTest {
 
     lateinit var presenter: MainPresenterImpl
+    lateinit var view: IMainView
+    lateinit var model: IMainModel
     @Before
     fun setup() {
-        presenter=Mockito.mock(MainPresenterImpl::class.java)
+        view = mock(IMainView::class.java)
+        model = mock(IMainModel::class.java)
+        presenter = MainPresenterImpl(view,model)
 
     }
+
+    @Test
+    fun `when editMobileNumber called verify editMobileDialog`(){
+
+        presenter.editMobileNumber()
+        verify(view, times(1)).editMobileDialog()
+
+    }
+
+    @Test
+    fun `Wrong mobile number should show error message`(){
+
+        presenter.updateMobileNumber("","")
+        verify(view, times(1)).showMessage()
+    }
+
 
     @Test
     fun `throw exception if email is null`() {
